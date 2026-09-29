@@ -1,3 +1,3 @@
-- [ ] Build the visual shell and realistic regional simulated data.
-- [ ] Build overview, stores, cases, weekly report, and data explorer pages.
+- [x] Build the visual shell and realistic regional simulated data.
+- [x] Build overview, stores, cases, weekly report, and data explorer pages.
 - [ ] Complete evidence-to-resolution interactions and verify navigation.
