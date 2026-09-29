@@ -29,7 +29,7 @@ export const drivers = [
   {label:'Inventory', amount:84500}, {label:'Procurement',amount:59200}, {label:'Payments',amount:48700}, {label:'Waste',amount:39100}, {label:'Refunds',amount:31800}, {label:'Discounts',amount:20700},
 ];
 export const money = (value:number) => '₹' + new Intl.NumberFormat('en-IN').format(value);
-export const storeFor = (id:string) => stores.find(s => s.id === id) ?? stores[0];
+export const storeFor = (id:string) => stores.find(s => s.id === id) ?? { id:'--', name:'Unknown store', risk:'Low' as Risk, score:0, exposure:0, cases:0, area:'Unknown', change:'—' }; 
 export const riskClass = (risk:string) => risk === 'Critical' || risk === 'High' ? 'risk-high' : risk === 'Medium' ? 'risk-medium' : 'risk-low';
 export const timeline = [
   {time:'08:32', title:'Central procurement dispatched', detail:'100 fries packets · shipment PO-7824'},
