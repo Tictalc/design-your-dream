@@ -14,7 +14,9 @@ import { Route as CasesRouteImport } from './routes/cases'
 import { Route as DataExplorerRouteImport } from './routes/data-explorer'
 import { Route as StoresRouteImport } from './routes/stores'
 import { Route as WeeklyReportRouteImport } from './routes/weekly-report'
+import { Route as CasesIndexRouteImport } from './routes/cases.index'
 import { Route as CasesCaseIdRouteImport } from './routes/cases.$caseId'
+import { Route as StoresIndexRouteImport } from './routes/stores.index'
 import { Route as StoresStoreIdRouteImport } from './routes/stores.$storeId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -42,10 +44,20 @@ const WeeklyReportRoute = WeeklyReportRouteImport.update({
   path: '/weekly-report',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CasesIndexRoute = CasesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CasesRoute,
+} as any)
 const CasesCaseIdRoute = CasesCaseIdRouteImport.update({
   id: '/$caseId',
   path: '/$caseId',
   getParentRoute: () => CasesRoute,
+} as any)
+const StoresIndexRoute = StoresIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => StoresRoute,
 } as any)
 const StoresStoreIdRoute = StoresStoreIdRouteImport.update({
   id: '/$storeId',
@@ -61,15 +73,17 @@ export interface FileRoutesByFullPath {
   '/weekly-report': typeof WeeklyReportRoute
   '/cases/$caseId': typeof CasesCaseIdRoute
   '/stores/$storeId': typeof StoresStoreIdRoute
+  '/cases/': typeof CasesIndexRoute
+  '/stores/': typeof StoresIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/cases': typeof CasesRouteWithChildren
   '/data-explorer': typeof DataExplorerRoute
-  '/stores': typeof StoresRouteWithChildren
   '/weekly-report': typeof WeeklyReportRoute
   '/cases/$caseId': typeof CasesCaseIdRoute
   '/stores/$storeId': typeof StoresStoreIdRoute
+  '/cases': typeof CasesIndexRoute
+  '/stores': typeof StoresIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +94,8 @@ export interface FileRoutesById {
   '/weekly-report': typeof WeeklyReportRoute
   '/cases/$caseId': typeof CasesCaseIdRoute
   '/stores/$storeId': typeof StoresStoreIdRoute
+  '/cases/': typeof CasesIndexRoute
+  '/stores/': typeof StoresIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,15 +107,17 @@ export interface FileRouteTypes {
     | '/weekly-report'
     | '/cases/$caseId'
     | '/stores/$storeId'
+    | '/cases/'
+    | '/stores/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/cases'
     | '/data-explorer'
-    | '/stores'
     | '/weekly-report'
     | '/cases/$caseId'
     | '/stores/$storeId'
+    | '/cases'
+    | '/stores'
   id:
     | '__root__'
     | '/'
@@ -109,6 +127,8 @@ export interface FileRouteTypes {
     | '/weekly-report'
     | '/cases/$caseId'
     | '/stores/$storeId'
+    | '/cases/'
+    | '/stores/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -156,12 +176,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WeeklyReportRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cases/': {
+      id: '/cases/'
+      path: '/'
+      fullPath: '/cases/'
+      preLoaderRoute: typeof CasesIndexRouteImport
+      parentRoute: typeof CasesRoute
+    }
     '/cases/$caseId': {
       id: '/cases/$caseId'
       path: '/$caseId'
       fullPath: '/cases/$caseId'
       preLoaderRoute: typeof CasesCaseIdRouteImport
       parentRoute: typeof CasesRoute
+    }
+    '/stores/': {
+      id: '/stores/'
+      path: '/'
+      fullPath: '/stores/'
+      preLoaderRoute: typeof StoresIndexRouteImport
+      parentRoute: typeof StoresRoute
     }
     '/stores/$storeId': {
       id: '/stores/$storeId'
@@ -175,20 +209,24 @@ declare module '@tanstack/react-router' {
 
 interface CasesRouteChildren {
   CasesCaseIdRoute: typeof CasesCaseIdRoute
+  CasesIndexRoute: typeof CasesIndexRoute
 }
 
 const CasesRouteChildren: CasesRouteChildren = {
   CasesCaseIdRoute: CasesCaseIdRoute,
+  CasesIndexRoute: CasesIndexRoute,
 }
 
 const CasesRouteWithChildren = CasesRoute._addFileChildren(CasesRouteChildren)
 
 interface StoresRouteChildren {
   StoresStoreIdRoute: typeof StoresStoreIdRoute
+  StoresIndexRoute: typeof StoresIndexRoute
 }
 
 const StoresRouteChildren: StoresRouteChildren = {
   StoresStoreIdRoute: StoresStoreIdRoute,
+  StoresIndexRoute: StoresIndexRoute,
 }
 
 const StoresRouteWithChildren =
