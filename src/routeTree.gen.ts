@@ -10,33 +10,133 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CasesRouteImport } from './routes/cases'
+import { Route as DataExplorerRouteImport } from './routes/data-explorer'
+import { Route as StoresRouteImport } from './routes/stores'
+import { Route as WeeklyReportRouteImport } from './routes/weekly-report'
+import { Route as CasesIndexRouteImport } from './routes/cases.index'
+import { Route as CasesCaseIdRouteImport } from './routes/cases.$caseId'
+import { Route as StoresIndexRouteImport } from './routes/stores.index'
+import { Route as StoresStoreIdRouteImport } from './routes/stores.$storeId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CasesRoute = CasesRouteImport.update({
+  id: '/cases',
+  path: '/cases',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DataExplorerRoute = DataExplorerRouteImport.update({
+  id: '/data-explorer',
+  path: '/data-explorer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoresRoute = StoresRouteImport.update({
+  id: '/stores',
+  path: '/stores',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WeeklyReportRoute = WeeklyReportRouteImport.update({
+  id: '/weekly-report',
+  path: '/weekly-report',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CasesIndexRoute = CasesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CasesRoute,
+} as any)
+const CasesCaseIdRoute = CasesCaseIdRouteImport.update({
+  id: '/$caseId',
+  path: '/$caseId',
+  getParentRoute: () => CasesRoute,
+} as any)
+const StoresIndexRoute = StoresIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => StoresRoute,
+} as any)
+const StoresStoreIdRoute = StoresStoreIdRouteImport.update({
+  id: '/$storeId',
+  path: '/$storeId',
+  getParentRoute: () => StoresRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cases': typeof CasesRouteWithChildren
+  '/data-explorer': typeof DataExplorerRoute
+  '/stores': typeof StoresRouteWithChildren
+  '/weekly-report': typeof WeeklyReportRoute
+  '/cases/$caseId': typeof CasesCaseIdRoute
+  '/stores/$storeId': typeof StoresStoreIdRoute
+  '/cases/': typeof CasesIndexRoute
+  '/stores/': typeof StoresIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/data-explorer': typeof DataExplorerRoute
+  '/weekly-report': typeof WeeklyReportRoute
+  '/cases/$caseId': typeof CasesCaseIdRoute
+  '/stores/$storeId': typeof StoresStoreIdRoute
+  '/cases': typeof CasesIndexRoute
+  '/stores': typeof StoresIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cases': typeof CasesRouteWithChildren
+  '/data-explorer': typeof DataExplorerRoute
+  '/stores': typeof StoresRouteWithChildren
+  '/weekly-report': typeof WeeklyReportRoute
+  '/cases/$caseId': typeof CasesCaseIdRoute
+  '/stores/$storeId': typeof StoresStoreIdRoute
+  '/cases/': typeof CasesIndexRoute
+  '/stores/': typeof StoresIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/cases'
+    | '/data-explorer'
+    | '/stores'
+    | '/weekly-report'
+    | '/cases/$caseId'
+    | '/stores/$storeId'
+    | '/cases/'
+    | '/stores/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/data-explorer'
+    | '/weekly-report'
+    | '/cases/$caseId'
+    | '/stores/$storeId'
+    | '/cases'
+    | '/stores'
+  id:
+    | '__root__'
+    | '/'
+    | '/cases'
+    | '/data-explorer'
+    | '/stores'
+    | '/weekly-report'
+    | '/cases/$caseId'
+    | '/stores/$storeId'
+    | '/cases/'
+    | '/stores/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CasesRoute: typeof CasesRouteWithChildren
+  DataExplorerRoute: typeof DataExplorerRoute
+  StoresRoute: typeof StoresRouteWithChildren
+  WeeklyReportRoute: typeof WeeklyReportRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +148,96 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cases': {
+      id: '/cases'
+      path: '/cases'
+      fullPath: '/cases'
+      preLoaderRoute: typeof CasesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/data-explorer': {
+      id: '/data-explorer'
+      path: '/data-explorer'
+      fullPath: '/data-explorer'
+      preLoaderRoute: typeof DataExplorerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stores': {
+      id: '/stores'
+      path: '/stores'
+      fullPath: '/stores'
+      preLoaderRoute: typeof StoresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/weekly-report': {
+      id: '/weekly-report'
+      path: '/weekly-report'
+      fullPath: '/weekly-report'
+      preLoaderRoute: typeof WeeklyReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cases/': {
+      id: '/cases/'
+      path: '/'
+      fullPath: '/cases/'
+      preLoaderRoute: typeof CasesIndexRouteImport
+      parentRoute: typeof CasesRoute
+    }
+    '/cases/$caseId': {
+      id: '/cases/$caseId'
+      path: '/$caseId'
+      fullPath: '/cases/$caseId'
+      preLoaderRoute: typeof CasesCaseIdRouteImport
+      parentRoute: typeof CasesRoute
+    }
+    '/stores/': {
+      id: '/stores/'
+      path: '/'
+      fullPath: '/stores/'
+      preLoaderRoute: typeof StoresIndexRouteImport
+      parentRoute: typeof StoresRoute
+    }
+    '/stores/$storeId': {
+      id: '/stores/$storeId'
+      path: '/$storeId'
+      fullPath: '/stores/$storeId'
+      preLoaderRoute: typeof StoresStoreIdRouteImport
+      parentRoute: typeof StoresRoute
+    }
   }
 }
 
+interface CasesRouteChildren {
+  CasesCaseIdRoute: typeof CasesCaseIdRoute
+  CasesIndexRoute: typeof CasesIndexRoute
+}
+
+const CasesRouteChildren: CasesRouteChildren = {
+  CasesCaseIdRoute: CasesCaseIdRoute,
+  CasesIndexRoute: CasesIndexRoute,
+}
+
+const CasesRouteWithChildren = CasesRoute._addFileChildren(CasesRouteChildren)
+
+interface StoresRouteChildren {
+  StoresStoreIdRoute: typeof StoresStoreIdRoute
+  StoresIndexRoute: typeof StoresIndexRoute
+}
+
+const StoresRouteChildren: StoresRouteChildren = {
+  StoresStoreIdRoute: StoresStoreIdRoute,
+  StoresIndexRoute: StoresIndexRoute,
+}
+
+const StoresRouteWithChildren =
+  StoresRoute._addFileChildren(StoresRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CasesRoute: CasesRouteWithChildren,
+  DataExplorerRoute: DataExplorerRoute,
+  StoresRoute: StoresRouteWithChildren,
+  WeeklyReportRoute: WeeklyReportRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

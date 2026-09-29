@@ -1,24 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
-export const Route = createFileRoute("/")({
-  component: Index,
-});
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { ArrowRight, ArrowUpRight, CircleAlert, FileSearch, Store, Wallet } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { PageHeading, SectionHeading, Panel, Metric, StoreTable, CaseRows } from '@/components/leakiq-ui';
+import { cases, drivers, money } from '@/lib/leakiq-data';
+export const Route = createFileRoute('/')({head:()=>({meta:[{title:'Overview — LeakIQ'},{name:'description',content:'Regional loss intelligence overview for 10 Bangalore restaurants.'},{property:'og:title',content:'Overview — LeakIQ'},{property:'og:description',content:'Regional loss intelligence overview for 10 Bangalore restaurants.'},{property:'og:type',content:'website'},{name:'twitter:card',content:'summary_large_image'}]}),component:Overview});
+function Overview(){return <><PageHeading title="Regional overview" description="A clearer view of potential loss across your 10 stores." action={<Button asChild variant="outline" size="sm"><Link to="/weekly-report">View weekly report <ArrowUpRight/></Link></Button>}/><div className="metrics-grid"><Metric label="Potential Exposure" value="₹2.84L" change="↑ 12.4% vs previous week" icon={Wallet}/><Metric label="Investigation Cases" value="23" change="↑ 4 new this week" icon={FileSearch}/><Metric label="Priority Cases" value="7" change="↑ 2 vs previous week" icon={CircleAlert}/><Metric label="Stores Flagged" value="3 / 10" change="No change vs previous week" icon={Store}/></div><div className="notice-strip"><strong>Attention needed:</strong> HSR Layout has the highest risk score this week. A connected inventory case links QC-approved stock, store rejection and subsequent consumption. <Link className="text-link" to="/cases/$caseId" params={{caseId:'LIQ-00431'}}>Review evidence →</Link></div><div className="dashboard-grid"><Panel><SectionHeading title="Store risk overview" subtitle="Ranked by risk score and potential exposure" action={<Link to="/stores">All stores <ArrowRight size={13}/></Link>}/><StoreTable compact/></Panel><div className="stack"><Panel><SectionHeading title="Exposure by loss driver" subtitle="Estimated potential exposure this week"/>{drivers.map(d=><div className="driver-row" key={d.label}><span className="driver-label">{d.label}</span><div className="driver-track"><div className="driver-fill" style={{width:`${d.amount/84500*100}%`}}/></div><span className="driver-amount">{money(d.amount)}</span></div>)}</Panel><Panel><SectionHeading title="Week-over-week exposure"/><div className="comparison"><div className="comparison-bar previous" style={{height:'73%'}}/><div className="comparison-bar" style={{height:'85%'}}/></div><div className="comparison-caption"><span>Previous week<br/><strong>₹2.53L</strong></span><span>This week<br/><strong>₹2.84L</strong></span><span className="trend-up">↑ 12.4%</span></div></Panel></div></div><Panel><SectionHeading title="Priority investigation cases" subtitle="Connected signals that need a closer look" action={<Link to="/cases" search={{store:''}}>All cases <ArrowRight size={13}/></Link>}/><CaseRows items={cases.slice(0,3)}/></Panel></>}
